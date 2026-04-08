@@ -11,6 +11,7 @@
 
   :root {
     --black: #000000;
+    --white: #ffffff;
     --bg: #050505;
     --surface: #0c0c0c;
     --surface2: #141414;
@@ -21,10 +22,11 @@
     --text3: #666666;
     --text4: #444444;
     --accent1: #C9A84C;
-    --accent2: #8B6914;
+    --accent2: #D4AF37;
     --blue: #3B82F6;
     --purple: #8B5CF6;
     --amber: #F59E0B;
+    --redatlas: #A64446;
     --red: #DC2626;
     --red2: #EF4444;
     --serif: 'Cormorant Garamond', Georgia, serif;
@@ -61,16 +63,16 @@
     margin-bottom: 40px;
   }
   .logo-mark {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--accent1);
+    width: 120px;
+    height: 60px;
+    border: 2px solid var(--redatlas);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--serif);
     font-size: 20px;
     font-weight: 700;
-    color: var(--accent1);
+    color: var(--white);
     letter-spacing: -1px;
   }
   .logo-text {
@@ -78,7 +80,7 @@
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 6px;
-    color: var(--accent1);
+    color: var(--text3);
     text-transform: uppercase;
   }
   .logo-sm {
@@ -192,7 +194,7 @@
   }
   .progress-fill {
     height: 100%;
-    background: var(--accent1);
+    background: var(--redatlas);
     border-radius: 1px;
     transition: width 0.4s ease;
   }
@@ -622,7 +624,7 @@ const PROFILES = {
     priorities:["Optimiser les fondamentaux (sommeil, stress, activité physique)","Investiguer les marqueurs de santé (bilan hormonal, cardiovasculaire)","Travailler le mental EN PARALLÈLE, pas après"]
   },
   C: {
-    name:"Le Situationnel", color:"#8B5CF6", icon:"💑",
+    name:"Le Relationnel", color:"#8B5CF6", icon:"💑",
     summary:"Ton corps fonctionne parfaitement. Érections matinales, masturbation, fantasmes : tout est OK.",
     detail:"Mais avec ta partenaire actuelle, spécifiquement, ça coince. Ce n'est pas un problème d'érection. C'est un problème relationnel qui se manifeste par l'érection.",
     analogy:"Ça peut être une tension non-dite dans le couple, une perte de désir spécifique, un déséquilibre dans la dynamique, ou simplement une routine qui a éteint l'étincelle.",
@@ -650,13 +652,13 @@ const PROFILES = {
 // =============================================
 // CONFIGURATION — Remplace l'URL ci-dessous par ton formulaire System.io
 // =============================================
-const SYSTEMIO_FORM_URL = 'https://ton-compte.systeme.io/ton-formulaire';
+const SYSTEMIO_FORM_URL = 'https://www.atlasletter.com/formulaire-dpd';
 
 // Tags System.io par profil (à créer dans System.io)
 const PROFILE_TAGS = {
   A: 'profil-mental',
   B: 'profil-double-peine',
-  C: 'profil-situationnel',
+  C: 'profil-relationnel',
   D: 'profil-peripherique',
   E: 'profil-alerte'
 };
@@ -690,11 +692,11 @@ function renderIntro() {
   return `
     <div class="intro fade-in">
       <div class="logo">
-        <div class="logo-mark">A</div>
-        <span class="logo-text">ATLAS</span>
+        <div class="logo-mark">ATLAS PROGRAMS</div>
+        <span class="logo-text"></span>
       </div>
-      <h1>Diagnostic DPD</h1>
-      <p class="subtitle">Diagnostic du Profil de Dysfonctionnement</p>
+      <h1>Diagnostic du Profil de Dysfonctionnement</h1>
+      <p class="subtitle">Détermines la cause principale de tes troubles érectiles</p>
       <div class="intro-box">
         <p><strong>25 questions. 5 minutes. Un diagnostic personnalisé.</strong></p>
         <p>Ce questionnaire analyse tes <strong>3 types d'érection</strong> (nocturnes, réflexogènes, psychogènes) pour identifier ton profil et te donner des recommandations concrètes.</p>
@@ -720,8 +722,7 @@ function renderQuiz() {
     <div class="fade-in">
       <div class="quiz-header">
         <div class="logo logo-sm">
-          <div class="logo-mark">A</div>
-          <span class="logo-text">DIAGNOSTIC</span>
+          <span class="logo-text">DIAGNOSTIC PROFIL DE DYSFONCTIONNEMENT</span>
         </div>
         <span class="quiz-counter">${current + 1}/${QUESTIONS.length}</span>
       </div>
@@ -789,11 +790,6 @@ function renderResult() {
 
   return `
     <div>
-      <div class="logo slide-up stagger-1">
-        <div class="logo-mark">A</div>
-        <span class="logo-text">ATLAS</span>
-      </div>
-
       <div class="slide-up stagger-2" style="text-align:center;margin-bottom:32px">
         <p class="result-label">Ton diagnostic</p>
         <h1 class="result-title" style="color:${p.color}">${p.icon} ${p.name}</h1>
