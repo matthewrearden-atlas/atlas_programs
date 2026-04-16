@@ -206,8 +206,6 @@ function render() {
   setTimeout(() => {
     window.parent.postMessage({type:'atlas-resize',height:document.documentElement.scrollHeight},'*');
     window.parent.postMessage({type:'atlas-scroll'},'*');
-    const target = document.querySelector('.question-text') || document.querySelector('.result-label') || document.querySelector('.intro h1') || document.body;
-    target.scrollIntoView({behavior:'smooth', block:'start'});
   }, 100);
 }
 
