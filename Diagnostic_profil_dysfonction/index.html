@@ -197,7 +197,7 @@ const PROFILE_NAMES = { A:'Le Purement Mental', B:'Le Tiraillé', C:'Le Relation
 
 let phase='intro', current=0, answers={}, scores={A:0,B:0,C:0,D:0,E:0}, selectedOption=null, animating=false;
 
-function render() {
+function render(shouldScroll) {
   const app = document.getElementById('app');
   if (phase==='intro') app.innerHTML = renderIntro();
   else if (phase==='quiz') app.innerHTML = renderQuiz();
@@ -205,7 +205,7 @@ function render() {
   bindEvents();
   setTimeout(() => {
     window.parent.postMessage({type:'atlas-resize',height:document.documentElement.scrollHeight},'*');
-    window.parent.postMessage({type:'atlas-scroll'},'*');
+    if (shouldScroll) window.parent.postMessage({type:'atlas-scroll'},'*');
   }, 100);
 }
 
@@ -295,8 +295,8 @@ function renderResult() {
 }
 
 function bindEvents() {
-  document.querySelectorAll('[data-action="start"]').forEach(b=>b.onclick=()=>{phase='quiz';render();});
-  document.querySelectorAll('[data-action="restart"]').forEach(b=>b.onclick=()=>{phase='intro';current=0;answers={};scores={A:0,B:0,C:0,D:0,E:0};selectedOption=null;render();});
+  document.querySelectorAll('[data-action="start"]').forEach(b=>b.onclick=()=>{phase='quiz';render(true);});
+  document.querySelectorAll('[data-action="restart"]').forEach(b=>b.onclick=()=>{phase='intro';current=0;answers={};scores={A:0,B:0,C:0,D:0,E:0};selectedOption=null;render(true);});
   document.querySelectorAll('[data-action="back"]').forEach(b=>b.onclick=goBack);
   document.querySelectorAll('[data-action="answer"]').forEach(b=>b.onclick=function(){handleAnswer(parseInt(this.dataset.index));});
   const revealBtn=document.getElementById('cta-reveal-btn');
@@ -327,14 +327,14 @@ function handleAnswer(idx){
   if(animating)return; selectedOption=idx; animating=true; render();
   const q=QUESTIONS[current],opt=q.opts[idx];
   Object.entries(opt.s).forEach(([k,v])=>{scores[k]=(scores[k]||0)+v;}); answers[current]=idx;
-  setTimeout(()=>{selectedOption=null;animating=false;if(current<QUESTIONS.length-1){current++;phase='quiz';}else{phase='result';}render();},350);
+  setTimeout(()=>{selectedOption=null;animating=false;if(current<QUESTIONS.length-1){current++;phase='quiz';}else{phase='result';}render(true);},350);
 }
 
 function goBack(){
   if(current===0||animating)return;
   const prev=answers[current-1];
   if(prev!==undefined){const opt=QUESTIONS[current-1].opts[prev];Object.entries(opt.s).forEach(([k,v])=>{scores[k]-=v;});delete answers[current-1];}
-  current--;render();
+  current--;render(true);
 }
 
 render();
