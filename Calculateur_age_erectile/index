@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Bilan ATLAS — Heureux &amp; Vigoureux</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --noir: #000000;
+            --carte: #141416;
+            --bord: #26262a;
+            --or: #C9A84C;
+            --orF: #9c7f32;
+            --rouge: #A64446;
+            --orange: #C97A3C;
+            --blanc: #F2EFE9;
+            --gris: #9a978f;
+            --blafard: #cfccc4;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0
+        }
+
+        body {
+            background: var(--noir);
+            color: var(--blanc);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased
+        }
+
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .hdr {
+            flex-shrink: 0;
+            padding: 16px 20px 0
+        }
+
+        .hdr-in {
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 22px
+        }
+
+        .back {
+            background: none;
+            border: none;
+            color: var(--gris);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            line-height: 1
+        }
+
+        .back:hover {
+            color: var(--or)
+        }
+
+        .bar-wrap {
+            flex: 1
+        }
+
+        .bar-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--gris);
+            letter-spacing: 1px;
+            margin-bottom: 5px
+        }
+
+        .bar-top .st {
+            text-transform: uppercase
+        }
+
+        .bar {
+            height: 4px;
+            background: #1b1b1e;
+            border-radius: 99px
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orF), var(--or));
+            border-radius: 99px;
+            transition: width .4s ease
+        }
+
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px
+        }
+
+        .wrap {
+            max-width: 560px;
+            margin: 0 auto;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px 0
+        }
+
+        .ftr {
+            flex-shrink: 0;
+            padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+            border-top: 1px solid var(--bord);
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(6px)
+        }
+
+        .ftr-in {
+            max-width: 560px;
+            margin: 0 auto
+        }
+
+        .hint {
+            font-size: 11px;
+            color: var(--gris);
+            text-align: center;
+            margin-bottom: 8px
+        }
+
+        .scr {
+            animation: fade .35s ease both
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(26px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .center {
+            text-align: center
+        }
+
+        .eyebrow {
+            font-size: 11.5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--or);
+            font-weight: 600
+        }
+
+        .h1 {
+            font-family: var(--serif);
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.12
+        }
+
+        .prompt {
+            font-family: var(--serif);
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.25
+        }
+
+        .sub {
+            color: var(--gris);
+            font-size: 14px;
+            margin-top: 8px;
+            line-height: 1.5
+        }
+
+        .p {
+            color: var(--blanc);
+            font-size: 16px;
+            line-height: 1.55;
+            margin: 0
+        }
+
+        .lbl {
+            font-size: 12px;
+            color: var(--gris);
+            margin-bottom: 6px
+        }
+
+        .opts {
+            margin-top: 22px;
+            display: grid;
+            gap: 10px
+        }
+
+        .opt {
+            text-align: left;
+            padding: 15px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 15.5px;
+            font-family: var(--sans);
+            background: var(--carte);
+            color: var(--blanc);
+            border: 1px solid var(--bord);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all .14s ease;
+            width: 100%
+        }
+
+        .opt:hover {
+            border-color: var(--or);
+            background: #1b1b1e
+        }
+
+        .opt.sel {
+            background: #1f1d16;
+            border-color: var(--or)
+        }
+
+        .chk {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            border: 1px solid var(--bord);
+            background: transparent;
+            color: var(--noir);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .opt.sel .chk {
+            background: var(--or);
+            border-color: var(--or)
+        }
+
+        .cta {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: var(--sans);
+            cursor: pointer;
+            border: 1px solid var(--or);
+            background: transparent;
+            color: var(--or);
+            transition: all .15s ease
+        }
+
+        .cta:hover:enabled {
+            background: var(--or);
+            color: var(--noir)
+        }
+
+        .cta:disabled {
+            color: var(--gris);
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        select,
+        input {
+            font-family: var(--sans)
+        }
+
+        .sel {
+            flex: 1;
+            padding: 13px 8px;
+            border-radius: 10px;
+            background: var(--carte);
+            border: 1px solid var(--bord);
+            color: var(--blanc);
+            font-size: 14px;
+            outline: none
+        }
+
+        .sel option {
+            background: var(--carte)
+        }
+
+        .inp {
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 10px;
+            background: var(--carte);
+            border: 1px solid var(--bord);
+            color: var(--blanc);
+            font-size: 15px;
+            outline: none
+        }
+
+        .card {
+            background: var(--carte);
+            border: 1px solid var(--bord);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color .25s ease
+        }
+
+        .card.open {
+            border-color: var(--or)
+        }
+
+        .card-h {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 15px;
+            background: none;
+            border: none;
+            color: var(--blanc);
+            cursor: pointer;
+            text-align: left
+        }
+
+        .card-emo {
+            font-size: 18px
+        }
+
+        .card-t {
+            display: block;
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--or)
+        }
+
+        .card-r {
+            display: block;
+            font-size: 12.5px;
+            color: var(--gris)
+        }
+
+        .card-chev {
+            color: var(--gris);
+            transition: transform .25s ease
+        }
+
+        .card.open .card-chev {
+            transform: rotate(180deg)
+        }
+
+        .card-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height .32s ease, opacity .28s ease
+        }
+
+        .card.open .card-panel {
+            max-height: 240px;
+            opacity: 1
+        }
+
+        .card-txt {
+            padding: 0 15px 14px 45px;
+            font-size: 14px;
+            color: var(--blafard);
+            line-height: 1.55
+        }
+
+        .reveal {
+            opacity: 0;
+            transition: opacity .5s ease
+        }
+
+        .reveal.on {
+            opacity: 1
+        }
+
+        *::-webkit-scrollbar {
+            width: 7px
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: #2a2a2e;
+            border-radius: 9px
+        }
+
+        a {
+            color: var(--or)
+        }
+
+        code {
+            color: var(--or)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="hdr">
+            <div class="hdr-in" id="hdr"></div>
+        </div>
+        <div class="main" id="scroll">
+            <div class="wrap" id="wrap"></div>
+        </div>
+        <div class="ftr" id="ftr" style="display:none">
+            <div class="ftr-in" id="ftrIn"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ===================== CONFIG ===================== */
+        var MOCKUP = false; // true = écran d'aperçu de redirection ; false = vraie redirection (prod)
+        var RESERVATION_URL = "https://www.atlasletter.com/apply-hv";
+        var WAITLIST_URL = "https://www.atlasletter.com/liste-dattente-hv";
+
+        /* ===================== DONNÉES ===================== */
+        var SINGLES = {
+            q1: {
+                qNum: 1,
+                prompt: "Au cours des derniers mois, t'est-il arrivé d'avoir du mal à obtenir ou à maintenir une érection ?",
+                options: [
+                    ["Oui, régulièrement", 4],
+                    ["Oui, parfois", 2],
+                    ["Rarement", 0],
+                    ["Non", -2]
+                ]
+            },
+            q3: {
+                qNum: 3,
+                prompt: "En moyenne, combien de verres d'alcool bois-tu par semaine ?",
+                sub: "1 verre = 1 bière 25cl, 1 vin 12cl, 1 alcool fort 4cl",
+                options: [
+                    ["Je ne bois pas", 0],
+                    ["Moins de 7", 0],
+                    ["7 à 14", 1],
+                    ["15 à 21", 3],
+                    ["Plus de 21", 5]
+                ]
+            },
+            q4: {
+                qNum: 4,
+                prompt: "Concernant le tabac, qu'est-ce qui décrit le mieux ta situation aujourd'hui ?",
+                options: [
+                    ["Je ne fume pas", 0],
+                    ["Occasionnellement", 1],
+                    ["Moins d'un paquet / jour", 3],
+                    ["Environ un paquet / jour", 5],
+                    ["Plus d'un paquet / jour", 7]
+                ]
+            },
+            q6: {
+                qNum: 6,
+                prompt: "En moyenne, combien d'heures dors-tu par nuit ?",
+                options: [
+                    ["Plus de 7h", -2],
+                    ["6 à 7h", 0],
+                    ["Moins de 6h", 3]
+                ]
+            },
+            q7: {
+                qNum: 7,
+                prompt: "Combien d'heures d'activité physique pratiques-tu sur une semaine ?",
+                options: [
+                    ["Plus de 5h", -3],
+                    ["2 à 5h", 0],
+                    ["Moins de 2h", 3]
+                ]
+            },
+            q8: {
+                qNum: 8,
+                prompt: "Comment décrirais-tu ton niveau de stress au quotidien ?",
+                options: [
+                    ["Faible", -2],
+                    ["Modéré", 0],
+                    ["Élevé", 5]
+                ]
+            },
+            q9: {
+                qNum: 9,
+                prompt: "À quelle fréquence consommes-tu du contenu pornographique ?",
+                options: [
+                    ["Jamais", -1],
+                    ["Occasionnellement", 0],
+                    ["Régulièrement", 5]
+                ]
+            },
+            q10: {
+                qNum: 10,
+                prompt: "As-tu encore des érections matinales ou spontanées au réveil ?",
+                options: [
+                    ["Oui, régulièrement", -3],
+                    ["Oui, parfois", 0],
+                    ["Non", 6],
+                    ["Je ne sais pas", 2]
+                ]
+            },
+            q11: {
+                qNum: 11,
+                prompt: "À quel point es-tu sûr de pouvoir obtenir et maintenir une érection ?",
+                options: [
+                    ["Pas sûr du tout", 1],
+                    ["Pas très sûr", 2],
+                    ["Moyennement sûr", 3],
+                    ["Sûr", 4],
+                    ["Très sûr", 5]
+                ]
+            },
+            q12: {
+                qNum: 12,
+                prompt: "Sous stimulation, à quelle fréquence ton érection est-elle assez rigide pour la pénétration ?",
+                options: [
+                    ["Presque jamais", 1],
+                    ["Rarement", 2],
+                    ["Environ la moitié du temps", 3],
+                    ["La plupart du temps", 4],
+                    ["Presque toujours", 5]
+                ]
+            },
+            q13: {
+                qNum: 13,
+                prompt: "À quelle fréquence restes-tu en érection après avoir pénétré ta partenaire ?",
+                options: [
+                    ["Presque jamais", 1],
+                    ["Rarement", 2],
+                    ["Environ la moitié du temps", 3],
+                    ["La plupart du temps", 4],
+                    ["Presque toujours", 5]
+                ]
+            },
+            q14: {
+                qNum: 14,
+                prompt: "À quel point est-ce difficile de rester en érection jusqu'à la fin du rapport ?",
+                options: [
+                    ["Extrêmement difficile", 1],
+                    ["Très difficile", 2],
+                    ["Difficile", 3],
+                    ["Un peu difficile", 4],
+                    ["Pas difficile", 5]
+                ]
+            },
+            q15: {
+                qNum: 15,
+                prompt: "Quand tu as un rapport, à quelle fréquence en es-tu satisfait ?",
+                options: [
+                    ["Presque jamais", 1],
+                    ["Rarement", 2],
+                    ["Environ la moitié du temps", 3],
+                    ["Souvent", 4],
+                    ["Presque toujours", 5]
+                ]
+            },
+            q16: {
+                qNum: 16,
+                prompt: "Depuis combien de temps cette situation dure ?",
+                options: [
+                    ["Quelques semaines", 0],
+                    ["Quelques mois", 0],
+                    ["Plus d'un an", 0],
+                    ["Plusieurs années", 0]
+                ]
+            },
+            q17: {
+                qNum: 17,
+                prompt: "Ça t'arrive d'éviter un moment d'intimité, juste pour ne pas risquer que ça rate ?",
+                options: [
+                    ["Oui, souvent", 0],
+                    ["Parfois", 0],
+                    ["Rarement", 0],
+                    ["Jamais", 0]
+                ]
+            },
+            q18: {
+                qNum: 18,
+                prompt: "Depuis que c'est arrivé, tu sens une distance s'installer dans ton couple ?",
+                options: [
+                    ["Oui, nette", 0],
+                    ["Un peu", 0],
+                    ["Pas vraiment", 0],
+                    ["Je suis célibataire", 0]
+                ]
+            }
+        };
+        var Q19_COUPLE = ["Qu'elle me désire de moins en moins", "Qu'elle se dise que c'est elle, le problème", "Qu'elle finisse par aller voir ailleurs", "Qu'elle ne me voie plus comme un homme, mais comme un colocataire", "Qu'on n'en parle jamais et que ça pourrisse en silence"];
+        var Q19_CELIB = ["Ne plus jamais oser initier", "Qu'on me quitte à cause de ça", "Ne plus me sentir désirable", "Devoir éviter ou mentir", "Renoncer à une vraie relation"];
+        var Q20_OPTS = ["Ma confiance, au lit comme ailleurs", "L'envie même d'essayer (autant éviter que rater)", "Le sentiment d'être un homme, un vrai", "La complicité et les gestes du quotidien avec elle", "Une part de moi que je ne reconnais plus"];
+        var Q21_OPTS = ["Redevenir un homme qu'elle désire et qu'elle respecte", "Bander quand je veux, sans y penser, sans angoisse", "Me sentir solide, vivant, sûr de moi", "Une vraie connexion avec elle, pas juste cohabiter", "Reprendre la main sur mon corps au lieu de le subir"];
+        var Q22_OPTS = ["Rien, j'ai surtout cherché du gratuit", "Moins de 200€", "Entre 200€ et 800€", "Entre 800€ et 2000€", "Plus de 2000€"];
+
+        var FLOW = [{
+                id: "intro",
+                kind: "intro"
+            },
+            {
+                id: "q1",
+                kind: "single"
+            },
+            {
+                id: "int1",
+                kind: "stat1"
+            },
+            {
+                id: "iceberg",
+                kind: "iceberg"
+            },
+            {
+                id: "q2",
+                kind: "birth"
+            },
+            {
+                id: "q3",
+                kind: "single"
+            }, {
+                id: "q4",
+                kind: "single"
+            },
+            {
+                id: "q5",
+                kind: "imc"
+            },
+            {
+                id: "q6",
+                kind: "single"
+            }, {
+                id: "q7",
+                kind: "single"
+            }, {
+                id: "q8",
+                kind: "single"
+            }, {
+                id: "q9",
+                kind: "single"
+            }, {
+                id: "q10",
+                kind: "single"
+            },
+            {
+                id: "recap",
+                kind: "recap"
+            },
+            {
+                id: "q11",
+                kind: "single"
+            }, {
+                id: "q12",
+                kind: "single"
+            }, {
+                id: "q13",
+                kind: "single"
+            }, {
+                id: "q14",
+                kind: "single"
+            }, {
+                id: "q15",
+                kind: "single"
+            },
+            {
+                id: "iief",
+                kind: "iief"
+            },
+            {
+                id: "q16",
+                kind: "single"
+            }, {
+                id: "q17",
+                kind: "single"
+            },
+            {
+                id: "stat78",
+                kind: "stat78"
+            },
+            {
+                id: "q18",
+                kind: "single"
+            },
+            {
+                id: "q19",
+                kind: "multi"
+            }, {
+                id: "q20",
+                kind: "multi"
+            }, {
+                id: "q21",
+                kind: "multi"
+            },
+            {
+                id: "q22",
+                kind: "single22"
+            },
+            {
+                id: "result",
+                kind: "result"
+            },
+            {
+                id: "approval",
+                kind: "approval"
+            },
+            {
+                id: "redirect",
+                kind: "redirect"
+            }
+        ];
+        var TOTAL_Q = 22;
+
+        /* ===================== ÉTAT ===================== */
+        var i = 0,
+            ans = {},
+            pts = {},
+            blocked = false;
+
+        /* ===================== HELPERS ===================== */
+        function easeOut(x) {
+            return 1 - Math.pow(1 - x, 3);
+        }
+
+        function esc(s) {
+            return ("" + s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function severityBand(s) {
+            if (s >= 21) return {
+                label: "Fonction érectile normale",
+                off: 0
+            };
+            if (s >= 16) return {
+                label: "Dysfonction légère",
+                off: 5
+            };
+            if (s >= 11) return {
+                label: "Dysfonction modérée",
+                off: 10
+            };
+            return {
+                label: "Dysfonction sévère",
+                off: 18
+            };
+        }
+
+        function imcPts(v) {
+            if (!v) return 0;
+            return v < 25 ? -1 : (v <= 30 ? 2 : 5);
+        }
+
+        function daysInMonth(m, y) {
+            return [31, ((y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0)) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+        }
+
+        function prng(n) {
+            var t = (n + 0x6D2B79F5) >>> 0;
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        }
+
+        function seatsTaken() {
+            var epoch = Date.UTC(2026, 5, 1),
+                now = Date.now(),
+                cursor = epoch,
+                val = 5,
+                n = 0,
+                g = 0;
+            while (g < 4000) {
+                var len = (prng(n) < 0.5 ? 2 : 3) * 86400000;
+                val = 4 + Math.floor(prng(n * 7 + 13) * 4);
+                if (now < cursor + len) break;
+                cursor += len;
+                n++;
+                g++;
+            }
+            return Math.min(7, Math.max(4, val));
+        }
+
+        function lerpHex(a, b, t) {
+            function px(h, i) {
+                return parseInt(h.slice(i, i + 2), 16);
+            }
+            var pa = [px(a, 1), px(a, 3), px(a, 5)],
+                pb = [px(b, 1), px(b, 3), px(b, 5)];
+            var c = pa.map(function(v, k) {
+                return Math.round(v + (pb[k] - v) * t).toString(16).padStart(2, "0");
+            });
+            return "#" + c.join("");
+        }
+
+        function computed() {
+            var realAge = (ans._age != null) ? ans._age : 40;
+            var iief = (pts.q11 || 0) + (pts.q12 || 0) + (pts.q13 || 0) + (pts.q14 || 0) + (pts.q15 || 0);
+            if (!iief) iief = 5;
+            var band = severityBand(iief);
+            var life = ["q1", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"].reduce(function(t, k) {
+                return t + (pts[k] || 0);
+            }, 0);
+            var ea = Math.round(realAge + band.off + life);
+            ea = Math.max(18, Math.min(ea, realAge + 30));
+            var gap = ea - realAge,
+                v;
+            if (gap <= 0) v = "Tes érections tiennent le rythme de ton corps. Bonne nouvelle. Mais tu n'as pas rempli tout ça pour rien. On regarde ensemble au bilan.";
+            else if (gap <= 8) v = "Quelques années d'avance. Rien de cassé. C'est le moment où on rattrape facilement. Dans cinq ans, ce sera une autre histoire.";
+            else if (gap <= 18) v = "Une décennie d'avance sur ton corps. Tu le sentais déjà. La vraie question, ce n'est pas si ça empire. C'est à quelle vitesse.";
+            else v = "Deux fois plus vite que toi. Lis bien : deux fois. Ce n'est pas une fatalité. Mais ce n'est pas un hasard non plus.";
+            var col = gap <= 8 ? "#C9A84C" : (gap <= 18 ? "#C97A3C" : "#A64446");
+            return {
+                realAge: realAge,
+                iief: iief,
+                band: band,
+                ea: ea,
+                gap: gap,
+                verdict: v,
+                col: col
+            };
+        }
+
+        function buildRedirectURL(base) {
+            var c = computed();
+            var p = new URLSearchParams({
+                iief: c.iief,
+                sev: c.band.label,
+                age: c.realAge,
+                age_erectile: c.ea,
+                ecart: c.gap,
+                diff: ans.q1 || "",
+                duree: ans.q16 || "",
+                evitement: ans.q17 || "",
+                distance: ans.q18 || "",
+                craintes: (ans.q19 || []).join("|"),
+                pertes: (ans.q20 || []).join("|"),
+                objectifs: (ans.q21 || []).join("|"),
+                cout: ans.q22 || ""
+            });
+            return base + "?" + p.toString();
+        }
+
+        function bookOrWaitlist(wait) {
+            var url = wait ? WAITLIST_URL : buildRedirectURL(RESERVATION_URL);
+            if (MOCKUP) {
+                ans._redirectUrl = url;
+                i = FLOW.length - 1;
+                render();
+            } else {
+                (window.top || window).location.href = url;
+            }
+        }
+
+        /* ===================== NAV ===================== */
+        function go(n) {
+            i = Math.min(FLOW.length - 1, Math.max(0, i + n));
+            render();
+        }
+
+        function curQNum() {
+            var n = 0;
+            for (var k = 0; k <= i; k++) {
+                var s = FLOW[k];
+                if (s.kind === "single" || s.kind === "single22") n = (s.kind === "single22") ? 22 : SINGLES[s.id].qNum;
+                else if (s.kind === "birth") n = 2;
+                else if (s.kind === "imc") n = 5;
+                else if (s.kind === "multi") n = (s.id === "q19") ? 19 : (s.id === "q20") ? 20 : 21;
+            }
+            return n;
+        }
+
+        function setSingle(qid, label, p) {
+            ans[qid] = label;
+            pts[qid] = p;
+            setTimeout(function() {
+                go(1);
+            }, 170);
+        }
+
+        /* ===================== RENDER ===================== */
+        function render() {
+            var step = FLOW[i];
+            document.getElementById("scroll").scrollTop = 0;
+            renderHeader(step);
+            document.getElementById("wrap").innerHTML = blocked ? bodyBlocked() : bodyFor(step);
+            renderFooter(step);
+            postRender(step);
+        }
+
+        function renderHeader(step) {
+            var hdr = document.getElementById("hdr");
+            var isQ = ["single", "single22", "birth", "imc", "multi"].indexOf(step.kind) >= 0;
+            var showBar = !blocked && ["intro", "iief", "result", "approval", "redirect"].indexOf(step.kind) < 0;
+            var html = "";
+            if (i > 0 && !blocked) html += '<button class="back" data-act="back">←</button>';
+            if (showBar) {
+                var n = curQNum(),
+                    pct = Math.round((n / TOTAL_Q) * 100);
+                html += '<div class="bar-wrap"><div class="bar-top"><span class="st">' + (isQ ? ("Étape " + n + " / " + TOTAL_Q) : "&nbsp;") + '</span><span>' + pct + '%</span></div><div class="bar"><div class="bar-fill" style="width:' + pct + '%"></div></div></div>';
+            }
+            hdr.innerHTML = html;
+        }
+
+        function bodyFor(step) {
+            switch (step.kind) {
+                case "intro":
+                    return bIntro();
+                case "single":
+                    return bSingle(step.id);
+                case "single22":
+                    return bSingle22();
+                case "multi":
+                    return bMulti(step.id);
+                case "birth":
+                    return bBirth();
+                case "imc":
+                    return bImc();
+                case "stat1":
+                    return bStat1();
+                case "iceberg":
+                    return bIceberg();
+                case "stat78":
+                    return bStat78();
+                case "recap":
+                    return bRecap();
+                case "iief":
+                    return bIief();
+                case "result":
+                    return bResult();
+                case "approval":
+                    return bApproval();
+                case "redirect":
+                    return bRedirect();
+            }
+            return "";
+        }
+
+        function bIntro() {
+            return '<div class="scr center">' +
+                '<div class="eyebrow">Bilan ATLAS · basé sur l\'IIEF-5</div>' +
+                '<div class="h1" style="margin-top:14px">Quel âge ont vraiment tes érections ?</div>' +
+                '<p class="p" style="margin-top:16px;color:var(--blafard)">En 5 minutes, ce bilan croise le test clinique des urologues avec ton mode de vie, et te donne un chiffre que personne ne t\'a jamais donné : ton âge érectile.</p>' +
+                '<div style="margin-top:26px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:var(--gris);font-size:12.5px"><span>5 minutes</span><span>·</span><span>100% confidentiel</span><span>·</span><span>Sans jugement</span></div>' +
+                '<p style="font-size:11px;color:var(--gris);margin-top:22px">Ne remplace pas un diagnostic médical.</p>' +
+                '</div>';
+        }
+
+        function optList(qid, options, multi) {
+            var sel = multi ? (ans[qid] || []) : ans[qid];
+            var h = '<div class="opts">';
+            for (var k = 0; k < options.length; k++) {
+                var label = options[k][0],
+                    p = options[k].length > 1 ? options[k][1] : 0;
+                var on = multi ? (sel.indexOf(label) >= 0) : (sel === label);
+                var act = multi ? 'data-act="multi" data-qid="' + qid + '"' : 'data-act="single" data-qid="' + qid + '" data-pts="' + p + '"';
+                h += '<button class="opt' + (on ? ' sel' : '') + '" ' + act + ' data-label="' + esc(label) + '">' +
+                    (multi ? '<span class="chk">' + (on ? '✓' : '') + '</span>' : '') +
+                    esc(label) + '</button>';
+            }
+            return h + '</div>';
+        }
+
+        function bSingle(qid) {
+            var d = SINGLES[qid];
+            return '<div class="scr"><div class="prompt">' + esc(d.prompt) + '</div>' +
+                (d.sub ? '<div class="sub">' + esc(d.sub) + '</div>' : '') +
+                optList(qid, d.options, false) + '</div>';
+        }
+
+        function bSingle22() {
+            var opts = Q22_OPTS.map(function(o) {
+                return [o, 0];
+            });
+            return '<div class="scr"><div class="prompt">Combien as-tu déjà dépensé dans des solutions qui ne t\'ont mené nulle part ?</div>' +
+                (function() {
+                    var sel = ans.q22,
+                        h = '<div class="opts">';
+                    for (var k = 0; k < opts.length; k++) {
+                        var label = opts[k][0];
+                        var on = sel === label;
+                        h += '<button class="opt' + (on ? ' sel' : '') + '" data-act="pick22" data-label="' + esc(label) + '">' + esc(label) + '</button>';
+                    }
+                    return h + '</div>';
+                })() +
+                '</div>';
+        }
+
+        function bMulti(qid) {
+            var opts = qid === "q19" ? (ans.q18 === "Je suis célibataire" ? Q19_CELIB : Q19_COUPLE) : (qid === "q20" ? Q20_OPTS : Q21_OPTS);
+            var prompt = qid === "q19" ? "Au fond, qu'est-ce que tu crains le plus ?" : (qid === "q20" ? "Depuis que ça dure, qu'est-ce que tu as perdu en route ?" : "Et si tu pouvais inverser tout ça, qu'est-ce que tu veux vraiment retrouver ?");
+            return '<div class="scr"><div class="prompt">' + esc(prompt) + '</div><div class="sub">Plusieurs réponses possibles.</div>' +
+                optList(qid, opts.map(function(o) {
+                    return [o];
+                }), true) + '</div>';
+        }
+
+        function bBirth() {
+            var now = new Date(),
+                maxY = now.getFullYear();
+            var mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+            var d = ans._bd || "",
+                m = ans._bm || "",
+                y = ans._by || "";
+            var maxD = (m && y) ? daysInMonth(+m, +y) : 31;
+            var dOpts = '<option value="">Jour</option>';
+            for (var dd = 1; dd <= maxD; dd++) dOpts += '<option value="' + dd + '"' + (+d === dd ? ' selected' : '') + '>' + dd + '</option>';
+            var mOpts = '<option value="">Mois</option>';
+            for (var mm = 0; mm < 12; mm++) mOpts += '<option value="' + (mm + 1) + '"' + (+m === mm + 1 ? ' selected' : '') + '>' + mois[mm] + '</option>';
+            var yOpts = '<option value="">Année</option>';
+            for (var yy = maxY; yy >= maxY - 100; yy--) yOpts += '<option value="' + yy + '"' + (+y === yy ? ' selected' : '') + '>' + yy + '</option>';
+            return '<div class="scr"><div class="prompt center">Quelle est ta date de naissance ?</div>' +
+                '<div style="display:flex;gap:10px;margin-top:24px;justify-content:center">' +
+                '<select class="sel js-birth" data-part="d">' + dOpts + '</select>' +
+                '<select class="sel js-birth" data-part="m">' + mOpts + '</select>' +
+                '<select class="sel js-birth" data-part="y">' + yOpts + '</select>' +
+                '</div></div>';
+        }
+
+        function bImc() {
+            var t = ans._t || "",
+                p = ans._p || "";
+            return '<div class="scr"><div class="prompt">Quelle est ta taille et ton poids actuels ?</div>' +
+                '<div style="display:flex;gap:12px;margin-top:20px">' +
+                '<div style="flex:1"><div class="lbl">Taille (cm)</div><input class="inp js-imc" data-part="t" type="number" inputmode="numeric" placeholder="178" value="' + esc(t) + '"></div>' +
+                '<div style="flex:1"><div class="lbl">Poids (kg)</div><input class="inp js-imc" data-part="p" type="number" inputmode="numeric" placeholder="82" value="' + esc(p) + '"></div>' +
+                '</div></div>';
+        }
+
+        function bStat1() {
+            return '<div class="scr center">' +
+                '<div class="eyebrow">Le savais-tu ?</div>' +
+                '<div style="font-family:var(--serif);font-weight:700;font-size:58px;color:var(--or);line-height:1;margin-top:12px">1 homme sur 2</div>' +
+                '<p class="p" style="margin-top:12px;color:var(--blafard)">Plus de la moitié des hommes en France rencontrent des troubles de l\'érection au cours de leur vie.</p>' +
+                '<div style="margin-top:18px;background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:14px 16px;font-size:14.5px;color:var(--gris)">Tu n\'es pas seul, et ce n\'est pas dans ta tête. Dans la grande majorité des cas, ça se règle.</div>' +
+                '</div>';
+        }
+
+        function bIceberg() {
+            return '<div class="scr center">' +
+                '<div class="eyebrow">Le savais-tu ?</div>' +
+                '<div style="position:relative;width:260px;height:330px;margin:20px auto 0">' +
+                '<svg viewBox="0 0 260 330" width="260" height="330">' +
+                '<defs><linearGradient id="iceTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#dad7cf"/></linearGradient></defs>' +
+                '<g style="transform-origin:130px 125px;animation:rise .7s ease both">' +
+                '<polygon points="130,46 130,125 70,125" fill="url(#iceTop)"/>' +
+                '<polygon points="130,46 190,125 130,125" fill="#cbc8c0"/></g>' +
+                '<g style="transform-origin:130px 125px;animation:rise .9s ease both .15s">' +
+                '<polygon points="130,126 70,126 52,170 92,280 130,308" fill="#A64446"/>' +
+                '<polygon points="130,126 190,126 208,170 168,280 130,308" fill="#8d3a3c"/></g>' +
+                '<line x1="10" y1="125.5" x2="250" y2="125.5" stroke="#9a978f" stroke-width="1" stroke-dasharray="3 6" opacity="0.5"/>' +
+                '</svg>' +
+                '<div style="position:absolute;top:75px;left:0;right:0;font-family:var(--serif);font-weight:700;font-size:32px;color:#1a1a1a"><span id="ice28">0</span>%</div>' +
+                '<div style="position:absolute;top:148px;left:0;right:0">' +
+                '<div style="font-family:var(--serif);font-weight:700;font-size:40px;color:var(--blanc);line-height:1"><span id="ice72">0</span>%</div>' +
+                '<div style="font-size:9.75px;font-weight:700;color:#f2dede;letter-spacing:0.5px;margin-top:4px">N\'ONT JAMAIS CONSULTÉ</div></div>' +
+                '</div>' +
+                '<div style="font-size:12px;color:var(--gris);margin-top:8px">28% seulement ont osé en parler</div>' +
+                '<p class="p" style="margin-top:14px;color:var(--blafard)">Presque personne n\'agit. Toi, tu es en train de le faire.</p>' +
+                '</div>';
+        }
+
+        function bStat78() {
+            return '<div class="scr center">' +
+                '<div class="eyebrow">Le savais-tu ?</div>' +
+                '<div style="font-family:var(--serif);font-weight:700;font-size:64px;color:var(--rouge);line-height:1;margin-top:10px"><span id="s78">0</span>%</div>' +
+                '<p class="p" style="margin-top:10px;color:var(--blafard)">des hommes sortent « je suis crevé » plutôt que d\'avouer une panne. Un sur trois a déjà menti pour éviter un rapport.</p>' +
+                '<div style="margin-top:16px;font-family:var(--serif);font-size:22px;color:var(--or)">On se cache tous derrière une excuse. La tienne, c\'est laquelle ?</div>' +
+                '</div>';
+        }
+
+        function bRecap() {
+            var cards = [];
+            cards.push({
+                emo: "📅",
+                t: "Âge",
+                r: (ans._age != null ? ans._age : "—") + " ans",
+                txt: "Les troubles érectiles augmentent avec l'âge, mais ce n'est pas une fatalité. Jeune, la cause est souvent psychologique. Plus tard, physiologique. À tout âge, ça se travaille."
+            });
+            var imc = parseFloat(ans._imc);
+            cards.push({
+                emo: "⚖️",
+                t: "Poids",
+                r: ans._imc ? ("IMC " + ans._imc + (imc >= 25 ? " · Surpoids" : " · Poids de santé")) : "—",
+                txt: imc >= 25 ? "Perdre 5 à 10% de ton poids peut te faire gagner 2 à 4 points sur l'échelle clinique. Un des leviers les plus rentables." : "Ton poids joue pour toi. Excellent pour tes érections comme pour ton cœur."
+            });
+            var em = ans.q10;
+            cards.push({
+                emo: "🌅",
+                t: "Érections matinales",
+                r: em || "—",
+                txt: em === "Non" ? "Leur absence est un signal à prendre au sérieux. Souvent vasculaire ou hormonal. Mais réversible." : "Bon signe. Tes vaisseaux et tes nerfs répondent bien. Une base solide."
+            });
+            if (ans.q3 && ["Je ne bois pas", "Moins de 7"].indexOf(ans.q3) < 0) cards.push({
+                emo: "🍷",
+                t: "Alcool",
+                r: ans.q3 + " verres/sem.",
+                txt: "L'alcool plombe l'érection sur le moment et abîme nerfs et vaisseaux sur la durée. À ta dose, ça compte."
+            });
+            if (ans.q4 && ans.q4 !== "Je ne fume pas") cards.push({
+                emo: "🚬",
+                t: "Tabac",
+                r: ans.q4,
+                txt: "Le tabac bouche les vaisseaux et augmente le risque de panne jusqu'à 50%. L'arrêt seul améliore les érections chez 25 à 50% des hommes."
+            });
+            if (ans.q8 === "Élevé") cards.push({
+                emo: "🧠",
+                t: "Stress",
+                r: "Niveau élevé",
+                txt: "Le stress chronique fait chuter la testostérone et coupe le signal de l'érection. Un levier direct, et des plus négligés."
+            });
+            if (ans.q7 === "Moins de 2h") cards.push({
+                emo: "🏃",
+                t: "Activité physique",
+                r: "Moins de 2h/sem.",
+                txt: "Bouger entretient la circulation, donc l'érection. Sous 2h par semaine, ton système vasculaire tourne au ralenti."
+            });
+            if (ans.q6 === "Moins de 6h") cards.push({
+                emo: "🌙",
+                t: "Sommeil",
+                r: "Moins de 6h/nuit",
+                txt: "C'est la nuit que ton corps fabrique l'essentiel de ta testostérone. Sous 6h, la production décroche."
+            });
+            if (ans.q9 === "Régulièrement") cards.push({
+                emo: "📱",
+                t: "Stimulation",
+                r: "Consommation régulière",
+                txt: "Une stimulation forte et répétée peut désensibiliser et brouiller ta réponse naturelle. Ça se rééduque."
+            });
+            var h = '<div class="scr"><div class="prompt center">Ton hygiène de vie parle.</div>' +
+                '<div class="sub" style="text-align:center">Chacun de ces points pèse sur tes érections. La bonne nouvelle, c\'est que ce sont des leviers. Et un levier, ça s\'actionne.</div>' +
+                '<div style="display:grid;gap:10px;margin-top:20px">';
+            for (var k = 0; k < cards.length; k++) {
+                var c = cards[k];
+                var op = (k === 0);
+                h += '<div class="card' + (op ? ' open' : '') + '" data-card="' + k + '">' +
+                    '<button class="card-h" data-act="acc" data-idx="' + k + '">' +
+                    '<span class="card-emo">' + c.emo + '</span>' +
+                    '<span style="flex:1"><span class="card-t">' + esc(c.t) + '</span><span class="card-r">' + esc(c.r) + '</span></span>' +
+                    '<span class="card-chev">⌄</span></button>' +
+                    '<div class="card-panel"><div class="card-txt">' + esc(c.txt) + '</div></div></div>';
+            }
+            return h + '</div></div>';
+        }
+
+        function bIief() {
+            var c = computed();
+            var pct = Math.max(2, Math.min(98, ((c.iief - 5) / 20) * 100));
+            return '<div class="scr center">' +
+                '<div style="font-size:12px;letter-spacing:3px;font-weight:700;color:var(--or);margin-bottom:4px">IIEF-5</div>' +
+                '<div class="eyebrow">Ton score préliminaire</div>' +
+                '<div style="font-family:var(--serif);font-size:76px;font-weight:700;color:var(--or);line-height:1;margin-top:6px">' + c.iief + '<span style="font-size:28px;color:var(--gris)"> / 25</span></div>' +
+                '<div style="display:inline-block;margin-top:8px;padding:5px 14px;border-radius:99px;background:#231b1b;color:var(--rouge);font-size:13px;font-weight:600">' + esc(c.band.label) + '</div>' +
+                '<div style="position:relative;height:8px;border-radius:99px;margin-top:42px;background:linear-gradient(90deg,#A64446,#C97A3C,#d8c24a,#5e8c4a)">' +
+                '<div style="position:absolute;top:-30px;left:' + pct + '%;transform:translateX(-50%);text-align:center;color:var(--blanc);font-size:11px;line-height:1.05">Toi<br>▼</div></div>' +
+                '<p class="p" style="margin-top:22px;color:var(--blafard)">Voilà la photo clinique. Mais elle est en noir et blanc. Il te manque ton âge érectile pour voir le vrai tableau.</p>' +
+                '<div style="margin-top:16px;font-family:var(--serif);font-size:21px;color:var(--blanc);line-height:1.35">Ça, c\'est la mécanique. Maintenant, parlons de ce que tu vis vraiment.</div>' +
+                '</div>';
+        }
+
+        function bResult() {
+            var c = computed();
+            return '<div class="scr center">' +
+                '<div class="eyebrow">Ton âge érectile</div>' +
+                '<div style="font-family:var(--serif);font-weight:700;line-height:1;margin-top:10px"><span id="eaNum" style="color:var(--or);font-size:56px">' + c.realAge + '</span><span id="eaSuf" style="color:var(--gris);font-size:19px"> ans</span></div>' +
+                '<div class="reveal" id="rvAge" style="color:var(--gris);font-size:14px;margin-top:6px">Ton âge réel : ' + c.realAge + ' ans</div>' +
+                '<div class="reveal" id="rvRest">' +
+                '<p class="p" style="margin-top:18px;font-family:var(--serif);font-size:22px;line-height:1.4">' + esc(c.verdict) + '</p>' +
+                '<div style="background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:16px 18px;margin-top:20px;text-align:left">' +
+                '<p class="p" style="font-size:15.5px">Tu peux faire redescendre ce chiffre. Pas avec une pilule, pas tout seul. En traitant ce qui l\'a fait monter. C\'est ce qu\'on fait au bilan. 30 minutes, offert, sans engagement.</p></div>' +
+                '<p style="font-size:11px;color:var(--gris);margin-top:18px;line-height:1.5">Ceci n\'est pas un diagnostic médical. L\'IIEF-5 est un outil de dépistage validé, pas un avis médical. Heureux &amp; Vigoureux est un accompagnement (coaching, hygiène de vie, optimisation), pas un traitement. Consulte un médecin pour tout symptôme.</p>' +
+                '</div></div>';
+        }
+
+        function bApproval() {
+            var taken = seatsTaken(),
+                full = taken >= 7,
+                left = 7 - taken;
+            var box = full ?
+                '<div style="color:var(--rouge);font-weight:600">Complet pour le moment.</div>' :
+                '<div style="display:flex;justify-content:center;gap:6px;align-items:baseline"><span style="font-family:var(--serif);font-size:30px;font-weight:700;color:var(--or)">' + taken + '</span><span style="color:var(--gris)">places prises ·</span><span style="font-family:var(--serif);font-size:30px;font-weight:700;color:var(--blanc)">' + left + '</span><span style="color:var(--gris)">restante' + (left > 1 ? 's' : '') + '</span></div>';
+            return '<div class="scr center">' +
+                '<div style="width:44px;height:44px;border-radius:99px;border:1px solid var(--or);color:var(--or);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px">✓</div>' +
+                '<div class="h1" style="font-size:32px">Tu fais partie des 28%.</div>' +
+                '<p class="p" style="margin-top:14px;color:var(--blafard)">La plupart des hommes ne font jamais ce pas. Toi, si. C\'est précisément ces hommes-là qu\'on accompagne dans Heureux &amp; Vigoureux.</p>' +
+                '<div style="margin-top:20px;background:var(--carte);border:1px solid ' + (full ? 'var(--rouge)' : 'var(--bord)') + ';border-radius:12px;padding:16px 18px">' +
+                '<div style="font-size:13px;color:var(--gris);margin-bottom:8px">On n\'accompagne que 7 hommes à la fois, pour les suivre comme il faut.</div>' + box + '</div>' +
+                '</div>';
+        }
+
+        function bRedirect() {
+            var url = ans._redirectUrl || buildRedirectURL(RESERVATION_URL);
+            return '<div class="scr center">' +
+                '<div class="h1" style="font-size:26px">Redirection (maquette)</div>' +
+                '<p class="p" style="margin-top:12px;color:var(--blafard)">En production (MOCKUP = false), le clic redirige directement vers ta page de réservation avec les données du bilan en paramètres.</p>' +
+                '<div style="margin-top:16px;background:var(--carte);border:1px solid var(--bord);border-radius:10px;padding:12px 14px;font-size:11.5px;color:var(--gris);word-break:break-all;text-align:left">' + esc(url) + '</div>' +
+                '<a href="' + esc(url) + '" target="_blank" rel="noreferrer" style="display:block;margin-top:18px;text-decoration:none"><button class="cta">Ouvrir la page de réservation ↗</button></a>' +
+                '</div>';
+        }
+
+        function bodyBlocked() {
+            return '<div class="scr center">' +
+                '<div class="h1" style="color:var(--rouge)">Vous devez être majeur</div>' +
+                '<p class="p" style="margin-top:14px;color:var(--blafard)">Désolé, nous ne pouvons pas vous accompagner. Ce service est réservé aux personnes de 18 ans et plus.</p>' +
+                '<a href="https://www.atlasletter.com" style="display:inline-block;margin-top:22px;text-decoration:none;font-size:14px">Revenir sur la page d\'accueil</a>' +
+                '</div>';
+        }
+
+        /* ===================== FOOTER ===================== */
+        function renderFooter(step) {
+            var ftr = document.getElementById("ftr"),
+                inn = document.getElementById("ftrIn");
+            if (blocked || step.kind === "single" || step.kind === "redirect") {
+                ftr.style.display = "none";
+                return;
+            }
+            var label = "Continuer →",
+                disabled = false,
+                act = "next",
+                hint = "";
+            switch (step.kind) {
+                case "intro":
+                    label = "Démarrer mon bilan →";
+                    break;
+                case "stat1":
+                case "iceberg":
+                case "stat78":
+                    hint = "Prochaine étape : quelques questions sur toi.";
+                    break;
+                case "recap":
+                    label = "Passons au plus précis →";
+                    break;
+                case "result":
+                    label = "Voir ce que je peux faire →";
+                    break;
+                case "birth":
+                    disabled = !ans._birthReady;
+                    act = "birth";
+                    break;
+                case "imc":
+                    disabled = !ans._imcReady;
+                    act = "imc";
+                    break;
+                case "single22":
+                    disabled = !ans.q22;
+                    break;
+                case "multi":
+                    disabled = !(ans[step.id] && ans[step.id].length);
+                    break;
+                case "approval":
+                    if (seatsTaken() >= 7) {
+                        label = "Rejoindre la liste d'attente →";
+                        act = "waitlist";
+                    } else {
+                        label = "Je veux régler ça →";
+                        act = "book";
+                    }
+                    break;
+            }
+            ftr.style.display = "block";
+            inn.innerHTML = (hint ? '<div class="hint">' + hint + '</div>' : '') +
+                '<button class="cta" id="footBtn" data-act="' + act + '"' + (disabled ? ' disabled' : '') + '>' + label + '</button>';
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+        function animateCount(to, dur, from, onFrame, onDone) {
+            var start = null;
+
+            function tick(t) {
+                if (start === null) start = t;
+                var p = Math.min(1, (t - start) / dur),
+                    v = Math.round(from + (to - from) * easeOut(p));
+                onFrame(v, p);
+                if (p < 1) requestAnimationFrame(tick);
+                else if (onDone) onDone();
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function postRender(step) {
+            if (step.kind === "iceberg") {
+                animateCount(28, 1100, 0, function(v) {
+                    var e = document.getElementById("ice28");
+                    if (e) e.textContent = v;
+                });
+                animateCount(72, 1300, 0, function(v) {
+                    var e = document.getElementById("ice72");
+                    if (e) e.textContent = v;
+                });
+            }
+            if (step.kind === "stat78") {
+                animateCount(78, 1100, 0, function(v) {
+                    var e = document.getElementById("s78");
+                    if (e) e.textContent = v;
+                });
+            }
+            if (step.kind === "result") {
+                var c = computed();
+                animateCount(c.ea, 1800, c.realAge, function(v, p) {
+                    var num = document.getElementById("eaNum"),
+                        suf = document.getElementById("eaSuf");
+                    if (!num) return;
+                    var size = 56 + 44 * p;
+                    num.textContent = v;
+                    num.style.fontSize = size + "px";
+                    num.style.color = lerpHex("#C9A84C", c.col, p);
+                    if (suf) suf.style.fontSize = (size * 0.34) + "px";
+                }, function() {
+                    var a = document.getElementById("rvAge"),
+                        r = document.getElementById("rvRest");
+                    if (a) a.classList.add("on");
+                    if (r) r.classList.add("on");
+                });
+            }
+        }
+
+        /* ===================== ÉVÉNEMENTS ===================== */
+        document.addEventListener("click", function(e) {
+            var el = e.target.closest("[data-act]");
+            if (!el) return;
+            var act = el.getAttribute("data-act");
+            if (act === "back") {
+                go(-1);
+            } else if (act === "next") {
+                go(1);
+            } else if (act === "single") {
+                setSingle(el.getAttribute("data-qid"), el.getAttribute("data-label"), parseFloat(el.getAttribute("data-pts")) || 0);
+            } else if (act === "multi") {
+                var qid = el.getAttribute("data-qid"),
+                    label = el.getAttribute("data-label");
+                var cur = ans[qid] || [];
+                var k = cur.indexOf(label);
+                if (k >= 0) cur.splice(k, 1);
+                else cur.push(label);
+                ans[qid] = cur;
+                var on = k < 0;
+                el.classList.toggle("sel", on);
+                var chk = el.querySelector(".chk");
+                if (chk) chk.textContent = on ? "✓" : "";
+                var bm = document.getElementById("footBtn");
+                if (bm) bm.disabled = !cur.length;
+            } else if (act === "pick22") {
+                ans.q22 = el.getAttribute("data-label");
+                var sibs = el.parentNode.querySelectorAll(".opt");
+                for (var s = 0; s < sibs.length; s++) sibs[s].classList.toggle("sel", sibs[s] === el);
+                var b22 = document.getElementById("footBtn");
+                if (b22) b22.disabled = false;
+            } else if (act === "acc") {
+                var idx = +el.getAttribute("data-idx");
+                var card = el.closest(".card");
+                var wasOpen = card.classList.contains("open");
+                var all = document.querySelectorAll(".card");
+                for (var j = 0; j < all.length; j++) all[j].classList.remove("open");
+                if (!wasOpen) card.classList.add("open");
+            } else if (act === "birth") {
+                if (ans._birthReady) submitBirth();
+            } else if (act === "imc") {
+                if (ans._imcReady) submitImc();
+            } else if (act === "book") {
+                bookOrWaitlist(false);
+            } else if (act === "waitlist") {
+                bookOrWaitlist(true);
+            }
+        });
+        document.addEventListener("change", function(e) {
+            var el = e.target;
+            if (el.classList.contains("js-birth")) {
+                var part = el.getAttribute("data-part");
+                ans["_b" + part] = el.value;
+                if (part === "m" || part === "y") rebuildDays();
+                updateBirthReady();
+            }
+        });
+        document.addEventListener("input", function(e) {
+            var el = e.target;
+            if (el.classList.contains("js-imc")) {
+                ans["_" + el.getAttribute("data-part")] = el.value;
+                var ready = ans._t && ans._p && (+ans._p) >= 30;
+                ans._imcReady = !!ready;
+                var b = document.getElementById("footBtn");
+                if (b) b.disabled = !ready;
+            }
+        });
+
+        function updateBirthReady() {
+            var ready = ans._bd && ans._bm && ans._by;
+            ans._birthReady = !!ready;
+            var b = document.getElementById("footBtn");
+            if (b) b.disabled = !ready;
+        }
+
+        function submitBirth() {
+            var now = new Date(),
+                maxY = now.getFullYear();
+            var age = maxY - (+ans._by);
+            var md = (now.getMonth() + 1) - (+ans._bm);
+            if (md < 0 || (md === 0 && now.getDate() < (+ans._bd))) age--;
+            ans._age = age;
+            if (age < 18) {
+                blocked = true;
+                render();
+                return;
+            }
+            go(1);
+        }
+
+        function rebuildDays() {
+            var dsel = document.querySelector('.js-birth[data-part="d"]');
+            if (!dsel) return;
+            if (!ans._bm || !ans._by) return;
+            var maxD = daysInMonth(+ans._bm, +ans._by),
+                cur = +ans._bd || 0;
+            if (cur > maxD) ans._bd = "";
+            var o = '<option value="">Jour</option>';
+            for (var dd = 1; dd <= maxD; dd++) o += '<option value="' + dd + '"' + (cur === dd && cur <= maxD ? ' selected' : '') + '>' + dd + '</option>';
+            dsel.innerHTML = o;
+        }
+
+        function submitImc() {
+            var imc = (+ans._p) / Math.pow((+ans._t) / 100, 2);
+            ans._imc = imc.toFixed(1);
+            pts.q5 = imcPts(imc);
+            go(1);
+        }
+        /* recalc readiness après un render de birth (les selects gardent leurs valeurs via ans._b*) */
+        var _origRender = render;
+        render = function() {
+            _origRender();
+            if (FLOW[i].kind === "birth") {
+                updateBirthReady();
+            }
+        };
+
+        /* ===================== START ===================== */
+        render();
+    </script>
+</body>
+
+</html>
