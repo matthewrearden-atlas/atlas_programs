@@ -458,67 +458,68 @@
                 prompt: "En moyenne, combien de verres d'alcool bois-tu par semaine ?",
                 sub: "1 verre = 1 bière 25cl, 1 vin 12cl, 1 alcool fort 4cl",
                 options: [
-                    ["Je ne bois pas", 0],
-                    ["Moins de 7", 0],
-                    ["7 à 14", 1],
+                    ["Plus de 21", 5],
                     ["15 à 21", 3],
-                    ["Plus de 21", 5]
+                    ["7 à 14", 1],
+                    ["Moins de 7", 0],
+                    ["Je ne bois pas", 0]
+                    
                 ]
             },
             q4: {
                 qNum: 4,
                 prompt: "Concernant le tabac, qu'est-ce qui décrit le mieux ta situation aujourd'hui ?",
                 options: [
-                    ["Je ne fume pas", 0],
+                    ["Plus d'un paquet / jour", 7],
+                    ["Environ un paquet / jour", 5],
                     ["Occasionnellement", 1],
                     ["Moins d'un paquet / jour", 3],
-                    ["Environ un paquet / jour", 5],
-                    ["Plus d'un paquet / jour", 7]
+                    ["Je ne fume pas", 0]
                 ]
             },
             q6: {
                 qNum: 6,
                 prompt: "En moyenne, combien d'heures dors-tu par nuit ?",
                 options: [
-                    ["Plus de 7h", -2],
+                    ["Moins de 6h", 3],
                     ["6 à 7h", 0],
-                    ["Moins de 6h", 3]
+                    ["Plus de 7h", -2]
                 ]
             },
             q7: {
                 qNum: 7,
                 prompt: "Combien d'heures d'activité physique pratiques-tu sur une semaine ?",
                 options: [
-                    ["Plus de 5h", -3],
+                    ["Moins de 2h", 3],
                     ["2 à 5h", 0],
-                    ["Moins de 2h", 3]
+                    ["Plus de 5h", -3]
                 ]
             },
             q8: {
                 qNum: 8,
                 prompt: "Comment décrirais-tu ton niveau de stress au quotidien ?",
                 options: [
-                    ["Faible", -2],
+                    ["Élevé", 5],
                     ["Modéré", 0],
-                    ["Élevé", 5]
+                    ["Faible", -2]
                 ]
             },
             q9: {
                 qNum: 9,
                 prompt: "À quelle fréquence consommes-tu du contenu pornographique ?",
                 options: [
-                    ["Jamais", -1],
+                    ["Régulièrement", 5],
                     ["Occasionnellement", 0],
-                    ["Régulièrement", 5]
+                    ["Jamais", -1]
                 ]
             },
             q10: {
                 qNum: 10,
                 prompt: "As-tu encore des érections matinales ou spontanées au réveil ?",
                 options: [
-                    ["Oui, régulièrement", -3],
-                    ["Oui, parfois", 0],
                     ["Non", 6],
+                    ["Oui, parfois", 0],
+                    ["Oui, régulièrement", -3],
                     ["Je ne sais pas", 2]
                 ]
             },
@@ -821,10 +822,10 @@
             ea = Math.max(18, Math.min(ea, realAge + 30));
             var gap = ea - realAge,
                 v;
-            if (gap <= 0) v = "Tes érections tiennent le rythme de ton corps. Bonne nouvelle. Mais tu n'as pas rempli tout ça pour rien. On regarde ensemble au bilan.";
-            else if (gap <= 8) v = "Quelques années d'avance. Rien de cassé. C'est le moment où on rattrape facilement. Dans cinq ans, ce sera une autre histoire.";
-            else if (gap <= 18) v = "Une décennie d'avance sur ton corps. Tu le sentais déjà. La vraie question, ce n'est pas si ça empire. C'est à quelle vitesse.";
-            else v = "Deux fois plus vite que toi. Lis bien : deux fois. Ce n'est pas une fatalité. Mais ce n'est pas un hasard non plus.";
+            if (gap <= 0) v = "Tes érections tiennent le rythme de ton corps. C'est une bonne nouvelle, mais tu n'as pas rempli tout ça pour rien. On regarde ça ensemble au bilan.";
+            else if (gap <= 8) v = "Tes érections ont quelques années d'avance, rien n'est cassé en soi. Mais c'est le moment crucial où tu peux rattraper facilement cet écart en agissant maintenant. Dans cinq ans, ce sera une autre histoire.";
+            else if (gap <= 18) v = "Tes érections vieillissent bien plus vite que toi... Une décennie d'avance sur ton corps et tu le sentais sûrement déjà. A ton avis, à quelle vitesse ça continue d'empirer ?";
+            else v = "Tes érections vieillissent deux fois plus vite que toi. Ce n'est pas une fatalité, ce ne sera une mince affaire mais ton cas n'est pas désespéré. Qu'est-ce que tu fais de cela maintenant ?";
             var col = gap <= 8 ? "#C9A84C" : (gap <= 18 ? "#C97A3C" : "#A64446");
             return {
                 realAge: realAge,
@@ -954,11 +955,11 @@
 
         function bIntro() {
             return '<div class="scr center">' +
-                '<div class="eyebrow">Bilan ATLAS · basé sur l\'IIEF-5</div>' +
+                '<div class="eyebrow"><strong>Bilan ATLAS · basé sur l\'IIEF-5</strong></div>' +
                 '<div class="h1" style="margin-top:14px">Quel âge ont vraiment tes érections ?</div>' +
-                '<p class="p" style="margin-top:16px;color:var(--blafard)">En 5 minutes, ce bilan croise le test clinique des urologues avec ton mode de vie, et te donne un chiffre que personne ne t\'a jamais donné : ton âge érectile.</p>' +
-                '<div style="margin-top:26px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:var(--gris);font-size:12.5px"><span>5 minutes</span><span>·</span><span>100% confidentiel</span><span>·</span><span>Sans jugement</span></div>' +
-                '<p style="font-size:11px;color:var(--gris);margin-top:22px">Ne remplace pas un diagnostic médical.</p>' +
+                '<p class="p" style="margin-top:16px;color:var(--blafard)">En 5 minutes, ce bilan croise le test clinique des urologues avec ton mode de vie, et te donne un chiffre que tu ne trouveras nulle part ailleurs : <strong>ton âge érectile</strong>.</p>' +
+                '<div style="margin-top:26px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:var(--gris);font-size:12.5px"><span>⚡ 5 minutes</span><span>·</span><span>🔒 100% confidentiel</span></div>' +
+                '<p style="font-size:11px;color:var(--gris);margin-top:40px">Ne remplace pas un diagnostic médical.</p>' +
                 '</div>';
         }
 
@@ -1048,7 +1049,7 @@
                 '<div class="eyebrow">Le savais-tu ?</div>' +
                 '<div style="font-family:var(--serif);font-weight:700;font-size:58px;color:var(--or);line-height:1;margin-top:12px">1 homme sur 2</div>' +
                 '<p class="p" style="margin-top:12px;color:var(--blafard)">Plus de la moitié des hommes en France rencontrent des troubles de l\'érection au cours de leur vie.</p>' +
-                '<div style="margin-top:18px;background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:14px 16px;font-size:14.5px;color:var(--gris)">Tu n\'es pas seul, et ce n\'est pas dans ta tête. Dans la grande majorité des cas, ça se règle.</div>' +
+                '<div style="margin-top:18px;background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:14px 16px;font-size:14.5px;color:var(--gris)">Tu n\'es pas seul, et ce n\'est pas dans ta tête. La bonne nouvelle est qu\'il existe des solution à ce problème.</div>' +
                 '</div>';
         }
 
@@ -1072,7 +1073,7 @@
                 '<div style="font-size:9.75px;font-weight:700;color:#f2dede;letter-spacing:0.5px;margin-top:4px">N\'ONT JAMAIS CONSULTÉ</div></div>' +
                 '</div>' +
                 '<div style="font-size:12px;color:var(--gris);margin-top:8px">28% seulement ont osé en parler</div>' +
-                '<p class="p" style="margin-top:14px;color:var(--blafard)">Presque personne n\'agit. Toi, tu es en train de le faire.</p>' +
+                '<p class="p" style="margin-top:14px;color:var(--blafard)">Presque personne n\'agit. Donc tu es en sur la bonne voie.</p>' +
                 '</div>';
         }
 
@@ -1080,8 +1081,8 @@
             return '<div class="scr center">' +
                 '<div class="eyebrow">Le savais-tu ?</div>' +
                 '<div style="font-family:var(--serif);font-weight:700;font-size:64px;color:var(--rouge);line-height:1;margin-top:10px"><span id="s78">0</span>%</div>' +
-                '<p class="p" style="margin-top:10px;color:var(--blafard)">des hommes sortent « je suis crevé » plutôt que d\'avouer une panne. Un sur trois a déjà menti pour éviter un rapport.</p>' +
-                '<div style="margin-top:16px;font-family:var(--serif);font-size:22px;color:var(--or)">On se cache tous derrière une excuse. La tienne, c\'est laquelle ?</div>' +
+                '<p class="p" style="margin-top:10px;color:var(--blafard)">des hommes invoquent « le stress » pour fuir l\'initimté plutôt que d\'avouer une panne. <strong>Un sur trois</strong> a déjà menti pour éviter le sexe.</p>' +
+                '<div style="margin-top:16px;font-family:var(--serif);font-size:22px;color:var(--or)">On se cache tous derrière une excuse, quelle est la tienne ?</div>' +
                 '</div>';
         }
 
@@ -1091,60 +1092,60 @@
                 emo: "📅",
                 t: "Âge",
                 r: (ans._age != null ? ans._age : "—") + " ans",
-                txt: "Les troubles érectiles augmentent avec l'âge, mais ce n'est pas une fatalité. Jeune, la cause est souvent psychologique. Plus tard, physiologique. À tout âge, ça se travaille."
+                txt: "Les troubles érectiles augmentent avec l'âge, mais ce n'est pas une fatalité. Chez les jeunes hommes, il y a souvent une composante psychologique, tandis qu'avec l'âge, les causes sont généralement physiologiques. À tout âge, des solutions efficaces existent."
             });
             var imc = parseFloat(ans._imc);
             cards.push({
                 emo: "⚖️",
                 t: "Poids",
                 r: ans._imc ? ("IMC " + ans._imc + (imc >= 25 ? " · Surpoids" : " · Poids de santé")) : "—",
-                txt: imc >= 25 ? "Perdre 5 à 10% de ton poids peut te faire gagner 2 à 4 points sur l'échelle clinique. Un des leviers les plus rentables." : "Ton poids joue pour toi. Excellent pour tes érections comme pour ton cœur."
+                txt: imc >= 25 ? "Perdre 5 à 10% de ton poids améliore significativement la fonction érectile, avec une amélioration mesurable de 2-4 points sur l'échelle IIEF-5 (l'échelle clinique). Un des leviers les plus rentables." : "Maintenir un poids de santé est excellent pour ta fonction érectile et ta santé cardiovasculaire globale. En résumé, excellent pour tes érections comme pour ton cœur."
             });
             var em = ans.q10;
             cards.push({
                 emo: "🌅",
                 t: "Érections matinales",
                 r: em || "—",
-                txt: em === "Non" ? "Leur absence est un signal à prendre au sérieux. Souvent vasculaire ou hormonal. Mais réversible." : "Bon signe. Tes vaisseaux et tes nerfs répondent bien. Une base solide."
+                txt: em === "Non" ? "Leur absence est un signal à prendre au sérieux. Cela peut indiquer une cause organique sous-jacente (souvent vasculaire) ou un déséquilibre hormonal" : "La présence d'érections matinales est un signe rassurant de bonne santé physique des vaisseaux et des nerfs."
             });
-            if (ans.q3 && ["Je ne bois pas", "Moins de 7"].indexOf(ans.q3) < 0) cards.push({
-                emo: "🍷",
+            if (ans.q3 && ["Je ne bois pas"].indexOf(ans.q3) < 0) cards.push({
+                emo: "🍺",
                 t: "Alcool",
                 r: ans.q3 + " verres/sem.",
-                txt: "L'alcool plombe l'érection sur le moment et abîme nerfs et vaisseaux sur la durée. À ta dose, ça compte."
+                txt: "L'alcool plombe l'érection sur le moment (effet dépresseur) et abîme nerfs et vaisseaux sanguins sur la durée. Une consommation modérée est recommandée."
             });
             if (ans.q4 && ans.q4 !== "Je ne fume pas") cards.push({
                 emo: "🚬",
                 t: "Tabac",
                 r: ans.q4,
-                txt: "Le tabac bouche les vaisseaux et augmente le risque de panne jusqu'à 50%. L'arrêt seul améliore les érections chez 25 à 50% des hommes."
+                txt: "Le tabac endommage les vaisseaux sanguins et augmente le risque de dysfonction érectile jusqu'à 50%. L'arrêt seul améliore la qualités des érections chez 25 à 50% des hommes."
             });
-            if (ans.q8 === "Élevé") cards.push({
+            if (ans.q8 === "Élevé" || ans.q8==="Modéré") cards.push({
                 emo: "🧠",
                 t: "Stress",
-                r: "Niveau élevé",
-                txt: "Le stress chronique fait chuter la testostérone et coupe le signal de l'érection. Un levier direct, et des plus négligés."
+                r: ans.q8,
+                txt: "Le stress chronique fait chuter la testostérone et coupe le signal de l'érection. C'est un levier d'action direct, et des plus négligés."
             });
             if (ans.q7 === "Moins de 2h") cards.push({
                 emo: "🏃",
                 t: "Activité physique",
                 r: "Moins de 2h/sem.",
-                txt: "Bouger entretient la circulation, donc l'érection. Sous 2h par semaine, ton système vasculaire tourne au ralenti."
+                txt: "Bouger entretient ton coeur et ton système cardiovasculaire, donc l'érection. Sous 2h par semaine, ton système vasculaire tourne au ralenti."
             });
             if (ans.q6 === "Moins de 6h") cards.push({
                 emo: "🌙",
                 t: "Sommeil",
                 r: "Moins de 6h/nuit",
-                txt: "C'est la nuit que ton corps fabrique l'essentiel de ta testostérone. Sous 6h, la production décroche."
+                txt: "C'est la nuit que ton corps fabrique l'essentiel de ta testostérone et qu'il teste tes érections. Sous 6h, la production décroche et tu te fais plus de mal que tu ne le penses."
             });
-            if (ans.q9 === "Régulièrement") cards.push({
-                emo: "📱",
-                t: "Stimulation",
-                r: "Consommation régulière",
-                txt: "Une stimulation forte et répétée peut désensibiliser et brouiller ta réponse naturelle. Ça se rééduque."
+            if (ans.q9 === "Régulièrement" || ans.q9==="Occasionnellement") cards.push({
+                emo: "🔞",
+                t: "Pornographie",
+                r: ans.q9,
+                txt: "La pornographie entraîne une diminution durable de la rigidité du pénis due à un épuisement ou à une surstimulation d'origine neurologique. Cette stimulation forte et répétée peut désensibiliser et brouiller ta réponse naturelle."
             });
-            var h = '<div class="scr"><div class="prompt center">Ton hygiène de vie parle.</div>' +
-                '<div class="sub" style="text-align:center">Chacun de ces points pèse sur tes érections. La bonne nouvelle, c\'est que ce sont des leviers. Et un levier, ça s\'actionne.</div>' +
+            var h = '<div class="scr"><div class="prompt center">Ton hygiène de vie est révélatrice...</div>' +
+                '<div class="sub" style="text-align:center">Chacun de ces points pèse sur tes érections. La bonne nouvelle est que ce sont des leviers actionnables.</div>' +
                 '<div style="display:grid;gap:10px;margin-top:20px">';
             for (var k = 0; k < cards.length; k++) {
                 var c = cards[k];
@@ -1164,12 +1165,12 @@
             var pct = Math.max(2, Math.min(98, ((c.iief - 5) / 20) * 100));
             return '<div class="scr center">' +
                 '<div style="font-size:12px;letter-spacing:3px;font-weight:700;color:var(--or);margin-bottom:4px">IIEF-5</div>' +
-                '<div class="eyebrow">Ton score préliminaire</div>' +
+                '<div class="eyebrow"><strong>Ton score préliminaire</strong></div>' +
                 '<div style="font-family:var(--serif);font-size:76px;font-weight:700;color:var(--or);line-height:1;margin-top:6px">' + c.iief + '<span style="font-size:28px;color:var(--gris)"> / 25</span></div>' +
                 '<div style="display:inline-block;margin-top:8px;padding:5px 14px;border-radius:99px;background:#231b1b;color:var(--rouge);font-size:13px;font-weight:600">' + esc(c.band.label) + '</div>' +
                 '<div style="position:relative;height:8px;border-radius:99px;margin-top:42px;background:linear-gradient(90deg,#A64446,#C97A3C,#d8c24a,#5e8c4a)">' +
                 '<div style="position:absolute;top:-30px;left:' + pct + '%;transform:translateX(-50%);text-align:center;color:var(--blanc);font-size:11px;line-height:1.05">Toi<br>▼</div></div>' +
-                '<p class="p" style="margin-top:22px;color:var(--blafard)">Voilà la photo clinique. Mais elle est en noir et blanc. Il te manque ton âge érectile pour voir le vrai tableau.</p>' +
+                '<p class="p" style="margin-top:22px;color:var(--blafard)">Voilà la photo clinique que tu obtiendrais en allant voir un urologue. Cependant, il te manque ton âge érectile pour voir le vrai tableau et l\'ampleur des dégâts.</p>' +
                 '<div style="margin-top:16px;font-family:var(--serif);font-size:21px;color:var(--blanc);line-height:1.35">Ça, c\'est la mécanique. Maintenant, parlons de ce que tu vis vraiment.</div>' +
                 '</div>';
         }
@@ -1183,7 +1184,7 @@
                 '<div class="reveal" id="rvRest">' +
                 '<p class="p" style="margin-top:18px;font-family:var(--serif);font-size:22px;line-height:1.4">' + esc(c.verdict) + '</p>' +
                 '<div style="background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:16px 18px;margin-top:20px;text-align:left">' +
-                '<p class="p" style="font-size:15.5px">Tu peux faire redescendre ce chiffre. Pas avec une pilule, pas tout seul. En traitant ce qui l\'a fait monter. C\'est ce qu\'on fait au bilan. 30 minutes, offert, sans engagement.</p></div>' +
+                '<p class="p" style="font-size:15.5px">Tu peux dimininuer ce chiffre sans pilule grâce à l\'accompagnement. Lors du bilan, je regarderai avec toi comment nous pouvons traiter ce qui dégrade ta capacité érectile. 30 minutes, offert, sans engagement.</p></div>' +
                 '<p style="font-size:11px;color:var(--gris);margin-top:18px;line-height:1.5">Ceci n\'est pas un diagnostic médical. L\'IIEF-5 est un outil de dépistage validé, pas un avis médical. Heureux &amp; Vigoureux est un accompagnement (coaching, hygiène de vie, optimisation), pas un traitement. Consulte un médecin pour tout symptôme.</p>' +
                 '</div></div>';
         }
@@ -1197,10 +1198,10 @@
                 '<div style="display:flex;justify-content:center;gap:6px;align-items:baseline"><span style="font-family:var(--serif);font-size:30px;font-weight:700;color:var(--or)">' + taken + '</span><span style="color:var(--gris)">places prises ·</span><span style="font-family:var(--serif);font-size:30px;font-weight:700;color:var(--blanc)">' + left + '</span><span style="color:var(--gris)">restante' + (left > 1 ? 's' : '') + '</span></div>';
             return '<div class="scr center">' +
                 '<div style="width:44px;height:44px;border-radius:99px;border:1px solid var(--or);color:var(--or);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px">✓</div>' +
-                '<div class="h1" style="font-size:32px">Tu fais partie des 28%.</div>' +
-                '<p class="p" style="margin-top:14px;color:var(--blafard)">La plupart des hommes ne font jamais ce pas. Toi, si. C\'est précisément ces hommes-là qu\'on accompagne dans Heureux &amp; Vigoureux.</p>' +
+                '<div class="h1" style="font-size:32px">Tu fais partie des 1% qui agissent.</div>' +
+                '<p class="p" style="margin-top:14px;color:var(--blafard)">La plupart des hommes ne font jamais ce pas. Toi, si, et c\'est précisément ces hommes-là que l\'on accompagne dans Heureux &amp; Vigoureux.</p>' +
                 '<div style="margin-top:20px;background:var(--carte);border:1px solid ' + (full ? 'var(--rouge)' : 'var(--bord)') + ';border-radius:12px;padding:16px 18px">' +
-                '<div style="font-size:13px;color:var(--gris);margin-bottom:8px">On n\'accompagne que 7 hommes à la fois, pour les suivre comme il faut.</div>' + box + '</div>' +
+                '<div style="font-size:13px;color:var(--gris);margin-bottom:8px">On n\'accompagne que 7 hommes par mois, pour les suivre de près et assurer un accompagnement personnalisé.</div>' + box + '</div>' +
                 '</div>';
         }
 
@@ -1208,7 +1209,7 @@
             var url = ans._redirectUrl || buildRedirectURL(RESERVATION_URL);
             return '<div class="scr center">' +
                 '<div class="h1" style="font-size:26px">Redirection (maquette)</div>' +
-                '<p class="p" style="margin-top:12px;color:var(--blafard)">En production (MOCKUP = false), le clic redirige directement vers ta page de réservation avec les données du bilan en paramètres.</p>' +
+                '<p class="p" style="margin-top:12px;color:var(--blafard)">En production (MOCKUP = false), le clic redirige directement vers ta page de réservation.</p>' +
                 '<div style="margin-top:16px;background:var(--carte);border:1px solid var(--bord);border-radius:10px;padding:12px 14px;font-size:11.5px;color:var(--gris);word-break:break-all;text-align:left">' + esc(url) + '</div>' +
                 '<a href="' + esc(url) + '" target="_blank" rel="noreferrer" style="display:block;margin-top:18px;text-decoration:none"><button class="cta">Ouvrir la page de réservation ↗</button></a>' +
                 '</div>';
@@ -1268,7 +1269,7 @@
                         label = "Rejoindre la liste d'attente →";
                         act = "waitlist";
                     } else {
-                        label = "Je veux régler ça →";
+                        label = "Je veux rajeunir mes érections →";
                         act = "book";
                     }
                     break;
