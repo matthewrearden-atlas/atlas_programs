@@ -441,6 +441,44 @@
         var RESERVATION_URL = "https://www.atlasletter.com/apply-hv";
         var WAITLIST_URL = "https://www.atlasletter.com/liste-dattente-hv";
 
+        /* ===================== MAKE WEBHOOK ===================== */
+        var MAKE_FORM_WEBHOOK = "https://hook.eu1.make.com/geqtjqhek7t24seqfyrwfy8w3axty1fk";
+        var SUBMISSION_ID = localStorage.getItem("hv_submission_id") || (function(){
+            var id = "hv_" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+            localStorage.setItem("hv_submission_id", id);
+            return id;
+        })();
+        var _sent = false;
+        function sendFormData(){
+            if(_sent || !MAKE_FORM_WEBHOOK) return; _sent = true;
+            var c = computed();
+            var payload = {
+                id: SUBMISSION_ID,
+                iief: c.iief,
+                severite: c.band.label,
+                age_reel: c.realAge,
+                age_erectile: c.ea,
+                ecart: c.gap,
+                difficulte: ans.q1 || "",
+                alcool: ans.q3 || "",
+                tabac: ans.q4 || "",
+                imc: ans._imc || "",
+                sommeil: ans.q6 || "",
+                sport: ans.q7 || "",
+                stress: ans.q8 || "",
+                porno: ans.q9 || "",
+                erections_matinales: ans.q10 || "",
+                duree: ans.q16 || "",
+                evitement: ans.q17 || "",
+                distance: ans.q18 || "",
+                craintes: (ans.q19 || []).join(", "),
+                pertes: (ans.q20 || []).join(", "),
+                objectifs: (ans.q21 || []).join(", "),
+                cout: ans.q22 || ""
+            };
+            try{ fetch(MAKE_FORM_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),keepalive:true}); }catch(e){}
+        }
+
         /* ===================== DONNÉES ===================== */
         var SINGLES = {
             q1: {
@@ -839,21 +877,10 @@
         }
 
         function buildRedirectURL(base) {
-            var c = computed();
             var p = new URLSearchParams({
-                iief: c.iief,
-                sev: c.band.label,
-                age: c.realAge,
-                age_erectile: c.ea,
-                ecart: c.gap,
-                diff: ans.q1 || "",
-                duree: ans.q16 || "",
-                evitement: ans.q17 || "",
-                distance: ans.q18 || "",
-                craintes: (ans.q19 || []).join("|"),
-                pertes: (ans.q20 || []).join("|"),
-                objectifs: (ans.q21 || []).join("|"),
-                cout: ans.q22 || ""
+                salesforce_uuid: SUBMISSION_ID,
+                utm_source: "bilan_hv",
+                utm_campaign: "hv"
             });
             return base + "?" + p.toString();
         }
@@ -1099,7 +1126,7 @@
                 emo: "⚖️",
                 t: "Poids",
                 r: ans._imc ? ("IMC " + ans._imc + (imc >= 25 ? " · Surpoids" : " · Poids de santé")) : "—",
-                txt: imc >= 25 ? "Perdre 5 à 10% de ton poids améliore significativement la fonction érectile, avec une amélioration mesurable de 2-4 points sur l'échelle IIEF-5 (l'échelle clinique). Un des leviers les plus rentables." : "Maintenir un poids de santé est excellent pour ta fonction érectile et ta santé cardiovasculaire globale. En résumé, excellent pour tes érections comme pour ton cœur."
+                txt: imc >= 25 ? "Perdre 5 à 10% de masse grasse améliore significativement la fonction érectile, avec une amélioration mesurable sur l'échelle IIEF-5 (test clinique). Un des leviers les plus rentables." : "Maintenir un poids de santé est excellent pour ta fonction érectile et ta santé cardiovasculaire globale. En résumé, excellent pour tes érections comme pour ton cœur."
             });
             var em = ans.q10;
             cards.push({
@@ -1328,6 +1355,7 @@
                     if (a) a.classList.add("on");
                     if (r) r.classList.add("on");
                 });
+                sendFormData();
             }
         }
 
